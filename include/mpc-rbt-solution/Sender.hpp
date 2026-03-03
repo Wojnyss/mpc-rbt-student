@@ -18,7 +18,14 @@ public:
     config(senderConfig),
     timer_period(config.sendingPeriodMillis)
   {
-    UNIMPLEMENTED(__PRETTY_FUNCTION__);
+	create();
+	configure();
+	bind();
+
+	callback = [this](){
+		this->onDataTimerTick();
+	};
+
   }
 
   void run();

@@ -1,4 +1,5 @@
 #include <mpc-rbt-solution/Receiver.hpp>
+#include <nlohmann/json.hpp>
 
 void Receiver::Node::run()
 {
@@ -18,7 +19,19 @@ void Receiver::Node::run()
 
 void Receiver::Node::onDataReceived(const Socket::IPFrame & frame)
 {
-  UNIMPLEMENTED(__PRETTY_FUNCTION__);
+  const std::string s(
+    reinterpret_cast<const char*>(frame.serializedData.data()),
+    static_cast<size_t>(frame.dataSize)
+  );
+ 
+  data.frame = s;
+  const auto j = nlohmann::json::parse(s);
 
-  RCLCPP_INFO(logger, "\n\tstamp: %ld", data.timestamp);
+  // Call the Message method (NOT Utils::from_json)
+  Utils::Message::from_json(j, data);
+
+  RCLCPP_INFO(logger, "Received from %s:%u | stamp=%lu | x=%.2f y=%.2f z=%.2f | bytes=%ld",
+              frame.address.c_str(), frame.port,
+              data.timestamp, data.x, data.y, data.z,
+              static_cast<long>(frame.dataSize));
 }

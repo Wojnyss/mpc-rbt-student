@@ -6,5 +6,5 @@ windows:
   - monitoring:
       layout: even-vertical
       panes:
-        - echo "Watch the receiver status here !"
-        - echo "Watch the sender status here !"
+        - watch "systemctl status example_receiver.service"
+        - watch "systemctl status example_sender.service"
