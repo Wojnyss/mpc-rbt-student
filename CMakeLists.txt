@@ -30,6 +30,7 @@ include_directories(PUBLIC
 set(dependencies
         rclcpp
         rclcpp_action
+        geometry_msgs
         sensor_msgs
         nav_msgs
         nav2_msgs
@@ -51,9 +52,15 @@ install(TARGETS ${PROJECT_NAME}
 # * * * * * * * * * * * * * * * * *
 # *      Lab 04_keyboard_control
 # * * * * * * * * * * * * * * * * *
+
+install(DIRECTORY include/
+        DESTINATION include)
+
 add_executable(keyboard_control src/keyboard_control_node.cpp)
 target_link_libraries(keyboard_control ${PROJECT_NAME})
+ament_target_dependencies(keyboard_control rclcpp geometry_msgs)
 install(TARGETS keyboard_control DESTINATION lib/${PROJECT_NAME})
+
 
 # * * * * * * * * * * * * * * * * *
 # *      Lab 05_localization
