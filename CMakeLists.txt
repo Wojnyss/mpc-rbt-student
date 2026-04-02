@@ -40,7 +40,12 @@ set(dependencies
         mpc_rbt_simulator
 )
 
-add_library(${PROJECT_NAME} SHARED src/KeyboardControl.cpp)
+add_library(${PROJECT_NAME} SHARED
+        src/KeyboardControl.cpp
+        src/Localization.cpp
+	src/Planning.cpp
+	src/MotionControl.cpp
+)
 
 ament_target_dependencies(${PROJECT_NAME} ${dependencies})
 install(TARGETS ${PROJECT_NAME}
@@ -66,13 +71,62 @@ install(TARGETS keyboard_control DESTINATION lib/${PROJECT_NAME})
 # *      Lab 05_localization
 # * * * * * * * * * * * * * * * * *
 
+add_executable(localization_node src/localization_node.cpp)
+target_link_libraries(localization_node ${PROJECT_NAME})
+ament_target_dependencies(localization_node
+        rclcpp
+        sensor_msgs
+        nav_msgs
+        geometry_msgs
+        tf2
+        tf2_ros
+        tf2_geometry_msgs
+        mpc_rbt_simulator
+)
+install(TARGETS localization_node DESTINATION lib/${PROJECT_NAME})
+
+add_executable(scan_relay_node src/scan_relay_node.cpp)
+ament_target_dependencies(scan_relay_node
+        rclcpp
+        sensor_msgs
+)
+install(TARGETS scan_relay_node DESTINATION lib/${PROJECT_NAME})
+
 # * * * * * * * * * * * * * * * * *
 # *      Lab 06_planning
 # * * * * * * * * * * * * * * * * *
 
+add_executable(planning_node src/planning_node.cpp)
+target_link_libraries(planning_node ${PROJECT_NAME})
+ament_target_dependencies(planning_node
+        rclcpp
+        nav_msgs
+        geometry_msgs
+        tf2
+        tf2_ros
+        tf2_geometry_msgs
+        mpc_rbt_simulator
+)
+install(TARGETS planning_node DESTINATION lib/${PROJECT_NAME})
+
+
 # * * * * * * * * * * * * * * * * *
 # *       Lab 07_control
 # * * * * * * * * * * * * * * * * *
+
+add_executable(motion_control_node src/motion_control_node.cpp)
+target_link_libraries(motion_control_node ${PROJECT_NAME})
+ament_target_dependencies(motion_control_node
+	rclcpp
+	nav_msgs
+	nav2_msgs
+	tf2
+	tf2_ros
+	tf2_geometry_msgs
+	mpc_rbt_simulator
+)
+install(TARGETS motion_control_node DESTINATION lib/${PROJECT_NAME})
+
 
 # * * * * * * * * * * * * * * * * *
 # *    Lab 08_behavior trees

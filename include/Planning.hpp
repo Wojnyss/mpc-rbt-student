@@ -9,6 +9,8 @@
 #include "nav_msgs/msg/occupancy_grid.hpp"
 #include "nav_msgs/srv/get_map.hpp"
 #include "nav_msgs/srv/get_plan.hpp"
+#include "nav_msgs/msg/path.hpp"
+
 
 // A-star cell structure
 struct Cell {
@@ -25,7 +27,7 @@ public:
 
 private:
     // Parameters
-    // TO DO
+   
 
     // Callbacks
     void mapCallback(rclcpp::Client<nav_msgs::srv::GetMap>::SharedFuture future);
@@ -44,10 +46,15 @@ private:
     void dilateMap();
     void aStar(const geometry_msgs::msg::PoseStamped &start, const geometry_msgs::msg::PoseStamped &goal);
     void smoothPath();
+    int toIndex(int x, int y) const;
+    bool isInside(int x, int y) const;
+    bool isFree(int x, int y) const;
+    float heuristic(int x1, int y1, int x2, int y2) const;
 
     // Data
     nav_msgs::msg::OccupancyGrid map_;
     nav_msgs::msg::Path path_;
+    bool map_received_;
 };
 
 #endif // PLANNING_HPP

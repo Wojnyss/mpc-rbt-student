@@ -1,5 +1,5 @@
-#include "mpc_rbt_simulator/RobotConfig.hpp"
-#include "mpc_rbt_solution/MotionControl.hpp"
+#include "mpc-rbt-simulator/RobotConfig.hpp"
+#include "mpc-rbt-solution/MotionControl.hpp"
 
 MotionControlNode::MotionControlNode() :
     rclcpp::Node("motion_control_node") {
