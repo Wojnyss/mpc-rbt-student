@@ -89,7 +89,7 @@ void PlanningNode::dilateMap() {
     double resolution = map_.info.resolution;
 
     // 👉 nastav šířku robota (v metrech)
-    double robot_width = 0.55;   // uprav podle robota
+    double robot_width = 1.2;   // uprav podle robota
 
     // 👉 radius v buňkách
     int radius = static_cast<int>((robot_width / 2.0) / resolution);

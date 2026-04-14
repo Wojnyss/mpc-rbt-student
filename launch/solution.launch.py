@@ -43,9 +43,48 @@ def generate_launch_description():
 	parameters=[{'use_sim_time': True}]
     )
 
+    motion_control_node = Node(
+        package='mpc_rbt_student',
+        executable='motion_control_node',
+        name='motion_control_node',
+        output='screen',
+        parameters=[{'use_sim_time': True}]
+    )
+
+    planning_node = Node(
+        package='mpc_rbt_student',
+        executable='planning_node',
+        name='planning_node',
+        output='screen',
+        parameters=[{'use_sim_time': True}]
+    )
+
+    warehouse_manager = Node(
+        package='mpc_rbt_solution',
+        executable='warehouse_manager',
+        name='warehouse_manager',
+        output='screen',
+        parameters=[{'use_sim_time': True}]
+    )
+
+    bt_server = Node(
+        package='mpc_rbt_solution',
+        executable='bt_server',
+        name='bt_server',
+        output='screen',
+        parameters=[
+            {'use_sim_time': True},
+            os.path.join(package_dir, 'config', 'bt_server.yaml')
+        ]
+    )
+
     return LaunchDescription([
         map_to_odom_tf,
         localization_node,
-	scan_relay_node,
-        rviz_node
+	    scan_relay_node,
+        rviz_node,
+        motion_control_node,
+        planning_node,
+        bt_server,
+        warehouse_manager
     ])
