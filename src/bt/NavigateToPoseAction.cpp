@@ -18,19 +18,22 @@ public:
         });
     }
 
-    bool setGoal(Goal& goal) override
-    {
-        // TODO: Načtěte souřadnice x a y z input portů (getInput<double>).
-        // Naplňte goal.pose: nastavte header.frame_id na "map",
-        // pozici na načtené souřadnice a orientaci (w=1.0).
-        // Vraťte false pokud porty nejsou dostupné, jinak true.
-        return false;
+    bool setGoal(Goal& goal) override {
+      auto x = getInput<double>("x");
+      auto y = getInput<double>("y");
+      if (!x || !y) return false;
+      goal.pose.header.frame_id = "map";
+      goal.pose.pose.position.x = x.value();
+      goal.pose.pose.position.y = y.value();
+      goal.pose.pose.orientation.w = 1.0;
+      return true;
     }
 
     BT::NodeStatus onResultReceived(const WrappedResult& wr) override
     {
-        // TODO: Zkontrolujte wr.code. Pokud je SUCCEEDED, vraťte SUCCESS, jinak FAILURE.
-        return BT::NodeStatus::FAILURE;
+      if (wr.code == rclcpp_action::ResultCode::SUCCEEDED)
+          return BT::NodeStatus::SUCCESS;
+      return BT::NodeStatus::FAILURE;
     }
 
     BT::NodeStatus onFailure(BT::ActionNodeErrorCode error) override

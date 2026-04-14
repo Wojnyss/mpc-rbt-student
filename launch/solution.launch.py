@@ -17,7 +17,7 @@ def generate_launch_description():
         output='screen',
 	parameters=[{'use_sim_time': True}]
     )
-    
+
     scan_relay_node = Node(
        package='mpc_rbt_student',
        executable='scan_relay_node',
@@ -60,7 +60,7 @@ def generate_launch_description():
     )
 
     warehouse_manager = Node(
-        package='mpc_rbt_solution',
+        package='mpc_rbt_student',
         executable='warehouse_manager',
         name='warehouse_manager',
         output='screen',
@@ -68,7 +68,7 @@ def generate_launch_description():
     )
 
     bt_server = Node(
-        package='mpc_rbt_solution',
+        package='mpc_rbt_student',
         executable='bt_server',
         name='bt_server',
         output='screen',
@@ -88,3 +88,5 @@ def generate_launch_description():
         bt_server,
         warehouse_manager
     ])
+
+

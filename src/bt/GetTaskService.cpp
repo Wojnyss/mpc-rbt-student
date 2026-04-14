@@ -24,12 +24,10 @@ public:
         return true;
     }
 
-    BT::NodeStatus onResponseReceived(const Response::SharedPtr& response) override
-    {
-        // TODO: Zkontrolujte response->success. Pokud je false, vraťte FAILURE.
-        // Zapište response->message do output portu "manipulator_id" pomocí setOutput().
-        // Vraťte SUCCESS.
-        return BT::NodeStatus::FAILURE;
+    BT::NodeStatus onResponseReceived(const Response::SharedPtr& response) override {
+      if (!response->success) return BT::NodeStatus::FAILURE;
+      setOutput("manipulator_id", response->message);
+      return BT::NodeStatus::SUCCESS;
     }
 
     BT::NodeStatus onFailure(BT::ServiceNodeErrorCode error) override

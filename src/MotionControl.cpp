@@ -27,7 +27,7 @@ MotionControlNode::MotionControlNode()
       odom_received_(false),
       goal_reached_(false),
       rotate_in_place_mode_(false),
-      rotate_enter_threshold_(1.2),
+      rotate_enter_threshold_(0.1), //1.2
       rotate_exit_threshold_(0.35)
 {
     // Subscribers for odometry and laser scans
